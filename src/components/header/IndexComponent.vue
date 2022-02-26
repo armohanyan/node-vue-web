@@ -17,7 +17,7 @@
             >Search</b-button
           >
         </b-nav-form>
-        <b-nav-item :to="{ name: 'login' }">Log out</b-nav-item>
+        <b-nav-item :to="{ name: 'sign-in' }">Log out</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </div>
