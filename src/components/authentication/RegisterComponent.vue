@@ -86,6 +86,7 @@
           id="password"
           v-model="$v.form.password.$model"
           :state="validateState('password')"
+          type="password"
           placeholder="password"
         ></b-form-input>
 
@@ -111,7 +112,7 @@
   </b-container>
 </template>
 
-<script>    
+<script>
 import { required, minLength, email } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import AuthRepository from "../../repositories/AuthReposotory";
@@ -170,13 +171,13 @@ export default {
             this.errors = data.errors;
             console.log(this.errors);
           } else {
-              this.$router.push({ name: "sign-in" });
+            this.$router.push({ name: "sign-in" });
           }
         })
         .catch((err) => {
-          console.log(err, "sign-up error");
+          throw err;
         });
     },
-  },
+  },  
 };
 </script>

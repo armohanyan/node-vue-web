@@ -36,6 +36,7 @@
           id="password"
           v-model="$v.form.password.$model"
           :state="validateState('password')"
+          type="password"
           placeholder="password"
         ></b-form-input>
 
@@ -115,7 +116,6 @@ export default {
     login() {
       AuthRepository.signIn(this.form)
         .then(({ data }) => {
-          console.log(data);
           if (data.errors) {
             this.errors = data.errors;
           }
@@ -125,7 +125,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err, "sign-in error");
+          throw err;
         });
     },
   },
