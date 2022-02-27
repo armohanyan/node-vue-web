@@ -1,9 +1,59 @@
 <template>
   <b-container class="mt-5 w-25">
-    <div class="text-center"><h3>Sign in</h3></div>
+    <div class="text-center"><h3>Sign up</h3></div>
     <b-form @submit="onSubmit">
+      <!-- firstname -->
+      <b-form-group
+        id="firstname"
+        label="firstname"
+        label-for="firstname"
+        class="mt-3"
+      >
+        <b-form-input
+          id="firstname"
+          v-model="$v.form.firstName.$model"
+          :state="validateState('firstName')"
+          type="text"
+          placeholder="firstname"
+        ></b-form-input>
+
+        <b-form-invalid-feedback id="firstname">
+          <span v-if="!$v.form.firstName.required">
+            This is a required field.
+          </span>
+          <span v-else-if="!$v.form.firstName.minLength">
+            Must be at least 3 characters
+          </span>
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <!-- lastname -->
+      <b-form-group
+        id="lastname"
+        label="lastname"
+        label-for="lastname"
+        class="mt-3"
+      >
+        <b-form-input
+          id="lastname"
+          v-model="$v.form.lastName.$model"
+          :state="validateState('lastName')"
+          type="text"
+          placeholder="lastname"
+        ></b-form-input>
+
+        <b-form-invalid-feedback id="lastname">
+          <span v-if="!$v.form.lastName.required">
+            This is a required field.
+          </span>
+          <span v-else-if="!$v.form.lastName.minLength">
+            Must be at least 3 characters
+          </span>
+        </b-form-invalid-feedback>
+      </b-form-group>
+
       <!-- email -->
-      <b-form-group id="email" label="email" label-for="input-1">
+      <b-form-group id="email" label="email" label-for="email" class="mt-3">
         <b-form-input
           id="email"
           v-model="$v.form.email.$model"
@@ -53,20 +103,19 @@
         </small>
       </b-form-group>
 
+      <!-- submit -->
       <div class="mt-4 text-center">
         <b-button type="submit" variant="primary">Submit</b-button>
       </div>
     </b-form>
-
-    <router-link :to="'/sign-up'">Sign up</router-link>
+    <router-link :to="'/sign-in'">Sign in</router-link>
   </b-container>
 </template>
 
 <script>
 import { required, minLength, email } from "vuelidate/lib/validators";
-import AuthRepository from "../../repositories/AuthReposotory";
 import { validationMixin } from "vuelidate";
-
+import AuthRepository from "../../repositories/AuthReposotory";
 export default {
   mixins: [validationMixin],
   data() {
@@ -75,6 +124,8 @@ export default {
       form: {
         email: "",
         password: "",
+        firstName: "",
+        lastName: "",
       },
     };
   },
@@ -87,16 +138,16 @@ export default {
       },
       password: {
         required,
-        minLength: minLength(1),
+        minLength: minLength(1), // This is just for testing the backend validation !!
       },
-    },
-  },
-  watch: {
-    form: {
-      handler() {
-        this.errors = [];
+      firstName: {
+        required,
+        minLength: minLength(3),
       },
-      deep: true,
+      lastName: {
+        required,
+        minLength: minLength(3),
+      },
     },
   },
   methods: {
@@ -110,24 +161,23 @@ export default {
         this.$v.$touch();
         return false;
       } else {
-        this.login();
+        this.createUser();
       }
     },
-    login() {
-      AuthRepository.signIn(this.form)
+    createUser() {
+      AuthRepository.signUp(this.form)
         .then(({ data }) => {
           if (data.errors) {
             this.errors = data.errors;
-          }
-
-          if (data.user) {
-            this.$router.push({ name: "home" });
+            console.log(this.errors);
+          } else {
+            this.$router.push({ name: "sign-in" });
           }
         })
         .catch((err) => {
           throw err;
         });
     },
-  },
+  },  
 };
 </script>
