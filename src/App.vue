@@ -1,19 +1,17 @@
 <template>
   <div id="app">  
-      <index-component />
+     <header-component />
       <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import M ainComponent from './components/MainComponent.vue'
-import IndexComponent from './components/header/IndexComponent.vue';
+import HeaderComponent from './components/header/HeaderComponent.vue';
 
 
 export default {
   name: 'App',
-  components: { IndexComponent },
-
+  components: { HeaderComponent }
 }
 </script>
 

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import PostService from "../../repositories/PostRepository";
+import PostService from "../../services/PostService";
 import moment from "moment";
 
 export default {
@@ -80,6 +80,11 @@ export default {
       title: "",
     };
   },
+  computed: {
+    getCurrentProfile(){ 
+      return this.$store.getters.getCurrentUser; 
+    }
+  },
   async created() {
     try {
       this.posts = await PostService.getPosts();
@@ -87,7 +92,7 @@ export default {
     } catch (error) {
       this.error = error.message;
     }
-  },
+  }, 
   methods: {
     moment,
     async createPost() {
