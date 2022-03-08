@@ -20,9 +20,6 @@
             Must be at least 5 characters
           </span>
         </b-form-invalid-feedback>
-        <small class="text-danger" v-if="errors.email">
-          {{ errors.email }}
-        </small>
       </b-form-group>
 
       <!-- password -->
@@ -48,11 +45,12 @@
             Must be at least 6 characters
           </span>
         </b-form-invalid-feedback>
-        <small class="text-danger" v-if="errors.password">
-          {{ errors.password }}
-        </small>
       </b-form-group>
-
+      <div>
+        <small class="text-danger" v-if="error">
+          {{ error }}
+        </small>
+      </div>
       <div class="mt-4 text-center">
         <b-button type="submit" variant="primary">Submit</b-button>
       </div>
@@ -64,14 +62,14 @@
 
 <script>
 import { required, minLength, email } from "vuelidate/lib/validators";
-import AuthRepository from "../../repositories/AuthReposotory";
+import AuthService from "../../services/AuthService";
 import { validationMixin } from "vuelidate";
 
 export default {
   mixins: [validationMixin],
   data() {
     return {
-      errors: [],
+      error: null,
       form: {
         email: "",
         password: "",
@@ -94,7 +92,7 @@ export default {
   watch: {
     form: {
       handler() {
-        this.errors = [];
+        this.error = null;
       },
       deep: true,
     },
@@ -114,20 +112,26 @@ export default {
       }
     },
     login() {
-      AuthRepository.signIn(this.form)
+      AuthService.signIn(this.form)
         .then(({ data }) => {
-          if (data.errors) {
-            this.errors = data.errors;
-          }
-
-          if (data.user) {
+          if (data.success) {
+            this.$store.dispatch("setCurrentUser", data.data.user);
             this.$router.push({ name: "home" });
+          } else {
+            return;
           }
         })
         .catch((err) => {
+          const error = err.response.data.validationError;
+          if (err.response.data.message) {
+            this.error = err.response.data.message;
+          } else {
+            this.error = `${error.property}:  ${error.message}`;
+          }
+
           throw err;
         });
     },
-  },
+  },  
 };
 </script>

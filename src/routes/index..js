@@ -1,8 +1,9 @@
 import VueRouter from "vue-router";
-import PostComponent from "../components/body/PostComponent copy.vue";
+import PostComponent from "../components/body/PostComponent.vue";
 import CreatePostComponent from "../components/body/CreatePostComponent.vue";
 import LoginComponent from "../components/authentication/LoginComponent";
 import RegisterComponent from "../components/authentication/RegisterComponent";
+import VerifyEmail from "../components/authentication/VerifyEmail";
 
 const routes = [
   
@@ -18,6 +19,11 @@ const routes = [
     component: RegisterComponent
   },
   {
+    path: "/verify-email/:confirmationToken",
+    name: "verify-email",
+    component: VerifyEmail
+  },
+  {
     path: "/",
     name: "home",
     component: PostComponent
@@ -25,6 +31,11 @@ const routes = [
   {
     path: "/create",
     name: "create",
+    component: CreatePostComponent
+  },
+  {
+    path: "/about",
+    name: "about",
     component: CreatePostComponent
   }
 

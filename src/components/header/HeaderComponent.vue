@@ -4,7 +4,7 @@
       <b-navbar-nav class="mx-auto w-75">
         <b-nav-item v-for="(page, index) in pages" :key="index" :to="page">{{
           page.label
-        }}</b-nav-item>   
+        }}</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="mx-auto">
         <b-nav-form class="search">
@@ -17,7 +17,7 @@
             >Search</b-button
           >
         </b-nav-form>
-        <b-nav-item :to="{ name: 'sign-in' }">Log out</b-nav-item>
+        <b-nav-item @click="logout()">Log out</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
   </div>
@@ -34,6 +34,13 @@ export default {
         { name: "about", label: "About" },
       ],
     };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("setCurrentUser", null);
+      localStorage.removeItem("accesToken");
+      this.$router.push({ name: "sign-in"})
+    },
   },
 };
 </script> 

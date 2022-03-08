@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const url = "http://localhost:8000/posts/"
+const url = "http://localhost:3000/posts/"
 
-class PostRepository {
+class PostService {
 
     // Get Post 
     static getPosts() {
@@ -25,4 +25,4 @@ class PostRepository {
     }
 }
 
-export default PostRepository;
+export default PostService;
