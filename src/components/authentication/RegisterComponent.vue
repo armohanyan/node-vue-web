@@ -5,17 +5,17 @@
       <b-form @submit="onSubmit">
         <!-- firstname -->
         <b-form-group
-          id="firstname"
-          label="firstname"
-          label-for="firstname"
-          class="mt-3"
+            id="firstname"
+            label="firstname"
+            label-for="firstname"
+            class="mt-3"
         >
           <b-form-input
-            id="firstname"
-            v-model="$v.form.firstName.$model"
-            :state="validateState('firstName')"
-            type="text"
-            placeholder="firstname"
+              id="firstname"
+              v-model="$v.form.firstName.$model"
+              :state="validateState('firstName')"
+              type="text"
+              placeholder="firstname"
           ></b-form-input>
 
           <b-form-invalid-feedback id="firstname">
@@ -30,17 +30,17 @@
 
         <!-- lastname -->
         <b-form-group
-          id="lastname"
-          label="lastname"
-          label-for="lastname"
-          class="mt-3"
+            id="lastname"
+            label="lastname"
+            label-for="lastname"
+            class="mt-3"
         >
           <b-form-input
-            id="lastname"
-            v-model="$v.form.lastName.$model"
-            :state="validateState('lastName')"
-            type="text"
-            placeholder="lastname"
+              id="lastname"
+              v-model="$v.form.lastName.$model"
+              :state="validateState('lastName')"
+              type="text"
+              placeholder="lastname"
           ></b-form-input>
 
           <b-form-invalid-feedback id="lastname">
@@ -56,11 +56,11 @@
         <!-- email -->
         <b-form-group id="email" label="email" label-for="email" class="mt-3">
           <b-form-input
-            id="email"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-            type="text"
-            placeholder="email"
+              id="email"
+              v-model="$v.form.email.$model"
+              :state="validateState('email')"
+              type="text"
+              placeholder="email"
           ></b-form-input>
 
           <b-form-invalid-feedback id="email">
@@ -75,17 +75,17 @@
 
         <!-- password -->
         <b-form-group
-          id="password"
-          label="Password"
-          label-for="password"
-          class="mt-3"
+            id="password"
+            label="Password"
+            label-for="password"
+            class="mt-3"
         >
           <b-form-input
-            id="password"
-            v-model="$v.form.password.$model"
-            :state="validateState('password')"
-            type="password"
-            placeholder="password"
+              id="password"
+              v-model="$v.form.password.$model"
+              :state="validateState('password')"
+              type="password"
+              placeholder="password"
           ></b-form-input>
 
           <b-form-invalid-feedback id="password">
@@ -112,9 +112,9 @@
       <b-row class="mb-3">
         <b-col class="text-center">
           <b-icon
-            variant="success"
-            icon="check2-circle"
-            font-scale="5"
+              variant="success"
+              icon="check2-circle"
+              font-scale="5"
           ></b-icon>
 
           <div class="mt-3">
@@ -129,37 +129,51 @@
         </p>
         <p class="mx-3 w-100">
           <b
-            >Please click on the verification link included in the email to
+          >Please click on the verification link included in the email to
             verify your account.</b
           >
         </p>
       </b-row>
+      <div class="text-center">
+        <em class="font-weight-bold">Resend email token <span v-if="isDisableResendButton">{{
+            currentTimer
+          }}</span></em>
+        <p>
+          <b-button v-if="!isDisableResendButton" size="sm" variant="primary" @click="resendToken()">Resend</b-button>
+          <b-button v-if="isDisableResendButton" disabled size="sm">Resend</b-button>
+        </p>
+      </div>
     </div>
   </b-container>
 </template>
 
 <script>
-import { required, minLength, email } from "vuelidate/lib/validators";
-import { validationMixin } from "vuelidate";
-import AuthService from "../../services/AuthService";
+import { required, minLength, email } from 'vuelidate/lib/validators'
+import { validationMixin } from 'vuelidate'
+import AuthService from '../../services/AuthService'
+
 export default {
   mixins: [validationMixin],
-  data() {
+  data () {
     return {
       error: null,
       showSuccessScreen: false,
       form: {
-        email: "",
-        password: "",
-        firstName: "",
-        lastName: "",
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
       },
-    };
+      isDisableResendButton: true,
+      currentTimer: '',
+      minute: 1,
+      sec: 60
+    }
   },
   watch: {
     form: {
-      handler() {
-        this.error = null;
+      handler () {
+        this.error = null
       },
       deep: true,
     },
@@ -186,39 +200,61 @@ export default {
     },
   },
   methods: {
-    validateState(name) {
-      const { $dirty, $error } = this.$v.form[name];
-      return $dirty ? !$error : null;
+    validateState (name) {
+      const { $dirty, $error } = this.$v.form[name]
+      return $dirty ? !$error : null
     },
-    onSubmit(event) {
-      event.preventDefault();
+    onSubmit (event) {
+      event.preventDefault()
       if (this.$v.$invalid) {
-        this.$v.$touch();
-        return false;
+        this.$v.$touch()
+        return false
       } else {
-        this.createUser();
+        this.createUser()
       }
     },
-    createUser() {
+    createUser () {
       AuthService.signUp(this.form)
-        .then(({ data }) => {
-          if (data.success) {
-            this.showSuccessScreen = true;
-          } else {
-            return;
-          }
-        })
-        .catch((err) => {
-          const error = err.response.data.validationError;
-          if (err.response.data.message) {
-            this.error = err.response.data.message;
-          } else {
-            this.error = `${error.property}:  ${error.message}`;
-          }
+          .then(({ data }) => {
+            if (data.success) {
+              this.setTimer()
+              this.showSuccessScreen = true
+            } else {
+              return
+            }
+          })
+          .catch((err) => {
+            const error = err.response.data.validationError
+            if (err.response.data.message) {
+              this.error = err.response.data.message
+            } else {
+              this.error = `${error.property}:  ${error.message}`
+            }
 
-          throw err;
-        });
+            throw err
+          })
     },
+    resendToken () {
+      new AuthService().resendToken(this.form.email)
+      this.isDisableResendButton = true
+      this.currentTimer = ''
+      this.minute = 1
+      this.sec = 60
+    },
+    setTimer () {
+      setInterval(() => {
+        this.currentTimer = this.minute + ' : ' + this.sec
+        if (this.sec !== 0) {
+          this.sec--
+          if (this.sec === 0 && this.minute !== 0) {
+            this.minute--
+            this.sec = 60
+          }
+        } else {
+          this.isDisableResendButton = false
+        }
+      }, 1000)
+    }
   },
-};
+}
 </script>

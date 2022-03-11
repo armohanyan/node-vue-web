@@ -38,6 +38,18 @@ class AuthService {
                 .catch(err => reject(err))
         });
     }
+
+    resendToken(email){
+         return new Promise((resolve, reject) => {
+             axios.get(`${url}resend-token`, {
+                 params: {
+                     email
+                 }
+             })
+               .then(res => resolve(res))
+               .catch(err => reject(err))
+         });
+    }
 }
 
 export default AuthService;

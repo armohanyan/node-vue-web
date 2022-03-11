@@ -35,7 +35,7 @@
             font-scale="2"
           ></b-icon>
           <div class="mt-5">
-            <h5 class="font-weight-bold">Oops, User Not Found</h5>
+            <h5 class="font-weight-bold">Invalid or expired token</h5>
           </div>
         </b-col>
       </b-row>
@@ -44,8 +44,7 @@
           <span
             ><router-link :to="{ name: 'sign-up' }" class="btn-sign-in">
               Register
-            </router-link></span
-          >
+            </router-link></span>
         </div>
       </b-row>
     </div>
@@ -70,8 +69,8 @@ export default {
     verifyEmail() {
       new AuthSerive()
         .verifyEmail(this.$route.params.confirmationToken)
-        .then(() => (this.isSuccessVerified = true))
-        .catch(() => (this.userNotFound = true));
+        .then(() => this.isSuccessVerified = true)
+        .catch(() => this.userNotFound = true);
     },
   },
 };
