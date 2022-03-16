@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 
 const url = 'http://localhost:3000/api/auth/';
 
@@ -20,6 +21,7 @@ class AuthService {
         withCredentials: true
       })
            .then(res => {
+             Cookie.set("accessToken", res.data.data.token, { expires: 1 });
              resolve(res);
            })
            .catch(err => reject(err));
@@ -58,7 +60,6 @@ class AuthService {
   }
 
   resetPassword(email, password, token) {
-    console.log(token);
     return new Promise((resolve, reject) => {
       axios.post(`${url}reset-password`,
         {

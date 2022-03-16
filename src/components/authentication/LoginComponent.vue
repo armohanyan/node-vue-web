@@ -55,7 +55,7 @@
           </small>
         </div>
         <div class="mt-4 text-center">
-          <b-button type="submit" variant="primary" @click="onSubmit()">Submit</b-button>
+          <b-button type="submit" variant="primary">Submit</b-button>
         </div>
       </b-form>
       <div>

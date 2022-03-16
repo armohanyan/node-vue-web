@@ -38,12 +38,12 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("setCurrentUser", null);
-      localStorage.removeItem("accesToken");
+      this.$cookies.remove("accessToken")
       this.$router.push({ name: "sign-in"})
     },
   },
 };
-</script> 
+</script>
 <style scoped>
 .search form {
   display: flex;

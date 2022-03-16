@@ -69,7 +69,6 @@
 <script>
 import PostService from "../../services/PostService";
 import moment from "moment";
-import AccountService from '@/services/AccountService';
 
 export default {
   name: "PostComponent",
@@ -89,13 +88,9 @@ export default {
   async created() {
     try {
       this.posts = await PostService.getPosts();
-      console.log(this.posts);
     } catch (error) {
       this.error = error.message;
     }
-  },
-  mounted() {
-    new AccountService().current();
   },
   methods: {
     moment,
