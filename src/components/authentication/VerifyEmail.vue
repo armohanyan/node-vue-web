@@ -68,7 +68,7 @@ export default {
   methods: {
     verifyEmail() {
       new AuthSerive()
-        .verifyEmail(this.$route.params.confirmationToken)
+        .verifyEmail(this.$route.query.email, this.$route.query.token)
         .then(() => this.isSuccessVerified = true)
         .catch(() => this.userNotFound = true);
     },
