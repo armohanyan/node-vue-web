@@ -34,7 +34,7 @@ class AuthService {
         email,
         token
       })
-           .then(res => resolve(res))
+           .then(res   => resolve(res))
            .catch(err => reject(err));
     });
   }

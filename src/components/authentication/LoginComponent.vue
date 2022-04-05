@@ -71,14 +71,10 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
 import AuthService from '../../services/AuthService'
-import { ScaleLoader } from '@saeris/vue-spinners'
 import { validationMixin } from 'vuelidate'
 
 export default {
   mixins: [validationMixin],
-  components: {
-    ScaleLoader
-  },
   data () {
     return {
       error: null,
@@ -126,19 +122,15 @@ export default {
     login () {
       AuthService.signIn(this.form)
           .then(({ data }) => {
-            if (data.success) {
               this.$store.dispatch('setCurrentUser', data.data.user);
               this.$router.push({ name: 'home' })
-            } else {
-              return
-            }
           })
           .catch((err) => {
-            const error = err.response.data.validationError
-            if (err.response.data.message) {
-              this.error = err.response.data.message
+            const data = err.response.data;
+            if (data.message) {
+              this.error = data.message
             } else {
-              this.error = `${error.property}:  ${error.message}`
+              this.error = `${data.validatioError.property}:  ${data.validatioError.message}`
             }
             throw err
           })

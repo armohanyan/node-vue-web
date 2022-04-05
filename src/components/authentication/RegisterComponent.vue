@@ -215,13 +215,9 @@ export default {
     },
     createUser () {
       AuthService.signUp(this.form)
-          .then(({ data }) => {
-            if (data.success) {
+          .then(() => {
               this.setTimer()
               this.showSuccessScreen = true
-            } else {
-              return
-            }
           })
           .catch((err) => {
             const error = err.response.data.validationError

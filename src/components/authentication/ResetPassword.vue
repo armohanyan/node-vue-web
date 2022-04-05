@@ -199,13 +199,9 @@ export default {
     },
     requestResendPassword () {
       new AuthService().requestResendPassword(this.form.email)
-          .then(({ data }) => {
-            if (data.success) {
+          .then(() => {
               this.setTimer()
               this.showSuccessScreen = true
-            } else {
-              return
-            }
           })
           .catch(err => {
             this.error = true
