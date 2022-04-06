@@ -10,11 +10,11 @@ class AccountService {
       if(Cookie.get('accessToken')) {
         this.get()
             .then(account => {
-              resolve(account)
+              resolve(account);
             })
             .catch(err => {
               this.reset();
-              reject(err)
+              reject(err);
             });
       } else {
         this.reset();

@@ -26,8 +26,8 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("setCurrentUser", null);
-      this.$cookies.remove("accessToken")
-      this.$router.push({ name: "sign-in"})
+      this.$cookies.remove("accessToken");
+      this.$router.push({ name: "sign-in"});
     },
   },
 };

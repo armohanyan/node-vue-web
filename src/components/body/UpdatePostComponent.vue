@@ -39,12 +39,12 @@
           v-model="FILE"
           ref="file"
           class="mt-3"
+          pain
           @change="handleFileUpload"
       ></b-form-file>
       <b-form-invalid-feedback id="body-live-feedback"
       >This is a required field
-      </b-form-invalid-feedback
-      >
+      </b-form-invalid-feedback>
     </div>
     <div v-if="error" class="mt-3 text-center">
       <small class="text-danger">{{error}}</small>

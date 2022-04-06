@@ -42,20 +42,22 @@
                       >
                         View
                       </button>
-                      <button
-                          type="button"
-                          class="btn btn-sm btn-outline-secondary"
-                          @click="onEditPassword(post.id)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                          type="button"
-                          class="btn btn-sm btn-danger"
-                          @click="deletePost(post.id)"
-                      >
-                        delete
-                      </button>
+                      <div v-if="getCurrentUser.role === 'admin'">
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary"
+                            @click="onEditPassword(post.id)"
+                        >
+                          Edit
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            @click="deletePost(post.id)"
+                        >
+                          delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -81,6 +83,11 @@ export default {
       text: '',
       title: ''
     };
+  },
+  computed: {
+    getCurrentUser() {
+      return this.$store.getters.getCurrentUser;
+    }
   },
   mounted() {
     this.getPosts();

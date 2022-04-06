@@ -233,7 +233,12 @@ export default {
     },
     setTimer () {
       setInterval(() => {
-        this.currentTimer = this.minute + ' : ' + this.sec
+        if(this.sec <= 10) {
+          this.currentTimer = this.minute + ' : ' + "0" + this.sec;
+        } else {
+          this.currentTimer = this.minute + ' : ' + this.sec;
+        }
+
         if (this.sec !== 0) {
           this.sec--
           if (this.sec === 0 && this.minute !== 0) {
