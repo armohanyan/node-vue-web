@@ -214,12 +214,14 @@ export default {
             this.$router.push({ name: 'sign-in' })
           })
           .catch(err => {
-            const error = err.response.data.validationError
-            if (err.response.data.message) {
-              this.error = err.response.data.message
+            const error = err.response.data
+            if (error.message) {
+              this.error = error.message
             } else {
-              this.error = `${error.property}:  ${error.message}`
+              this.error = `${error.validationError.property}:  ${error.validationError.message}`
             }
+
+            throw err
           })
     },
     resendToken () {

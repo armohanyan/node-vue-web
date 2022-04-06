@@ -7,9 +7,8 @@ import router from "./routes/index.";
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import Vuelidate from 'vuelidate';
-import { VueSpinners } from '@saeris/vue-spinners'
 import VueCookies from 'vue-cookies'
-
+import VueEventBus from  "vue-event-bus"
 
 Vue.use(require('vue-cookies'))
 
@@ -17,9 +16,9 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueCookies)
 Vue.use(VueRouter);
+Vue.use(VueEventBus)
 Vue.use(Vuelidate);
 
-Vue.use(VueSpinners)
 Vue.config.productionTip = false;
 
 new Vue({

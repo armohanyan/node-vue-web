@@ -1,18 +1,73 @@
-import axios from "axios";
+import axios from 'axios';
 
-const url = "http://localhost:3000/api/posts/"
+const url = 'http://localhost:3000/api/posts';
 
 class PostService {
 
-    // Get Post
-    static getPosts() {
-        return new Promise((resolve, reject) => {
-            axios.get(url, { withCredentials: true }).then((res) => {
-                resolve(res.data);
-            })
-                .catch((err) => { reject(err) })
-        });
-    }
+  getPosts() {
+    return new Promise((resolve, reject) => {
+      axios.get(url,
+        { withCredentials: true })
+           .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
+  getPost(id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${url}/show/${id}`,
+        { withCredentials: true })
+           .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
+  create(formData) {
+    return new Promise((resolve, reject) => {
+      axios.post(
+        url,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          withCredentials: true
+        }
+      )
+           .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
+  delete(id) {
+    return new Promise((resolve, reject) => {
+      axios.delete(url, {
+        data: { id },
+        withCredentials: true
+      })
+           .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
+  update(formData) {
+
+    return new Promise((resolve, reject) => {
+      axios.put(
+        url,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          withCredentials: true
+        }
+      )
+           .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
 }
 
 export default PostService;

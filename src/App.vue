@@ -15,7 +15,12 @@ export default {
     getCurrentUser() {
       return this.$store.getters.getCurrentUser;
     }
+  },
+
+  mounted() {
+    if(!this.$cookies.get("accessToken")) this.$store.dispatch("setCurrentUser", null);
   }
+
 }
 </script>
 
