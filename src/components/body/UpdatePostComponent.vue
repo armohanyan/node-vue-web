@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid mt-4 w-50 mt-5">
-    <h4>Create post</h4>
+    <h4>Update post</h4>
     <!-- title -->
     <div class="form-group mt-3">
       <label for="exampleInputEmail1">title</label>
@@ -38,7 +38,6 @@
           id="body-live-feedback"
           v-model="FILE"
           ref="file"
-          :state="validateState('FILE')"
           class="mt-3"
           @change="handleFileUpload"
       ></b-form-file>
@@ -58,15 +57,16 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import PostService from '@/services/PostService';
 import { validationMixin } from 'vuelidate';
 import moment from 'moment';
+import PostService from '@/services/PostService';
 
 export default {
   name: 'CreatePostComponent',
   mixins: [validationMixin],
   data() {
     return {
+      id: null,
       title: '',
       body: '',
       FILE: [],
@@ -81,10 +81,10 @@ export default {
     body: {
       required,
       minLength: minLength(6)
-    },
-    FILE: {
-      required
     }
+  },
+  mounted() {
+    this.getPost();
   },
   methods: {
     moment,
@@ -96,21 +96,33 @@ export default {
       this.FILE = this.$refs.file.files[0];
     },
     onSubmit() {
-      if(this.$v.$invalid) {
-        this.$v.$touch();
-        return false;
-      }
+        // if(this.$v.$invalid) {
+        //   this.$v.$touch();
+        //   return false;
+        // }
 
-      this.createPost();
+      this.updatePost();
     },
-    createPost() {
+    getPost() {
+      new PostService().getPost(this.$route.params.id)
+                       .then(({ data }) => {
+                         this.id = data.data.post.id;
+                         this.title = data.data.post.title;
+                         this.body = data.data.post.body;
+                       })
+                       .catch(error => {
+                         throw error;
+                       });
+    },
+    updatePost() {
       let formData = new FormData();
 
       formData.append('file', this.FILE);
       formData.append('title', this.title);
       formData.append('body', this.body);
+      formData.append('id', this.id);1
 
-      new PostService().create(formData)
+      new PostService().update(formData)
                        .then(() => {
                          this.$router.push({ name: 'home' });
                        })

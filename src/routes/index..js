@@ -6,6 +6,8 @@ import RegisterComponent from '@/components/authentication/RegisterComponent';
 import VerifyEmail from '@/components/authentication/VerifyEmail';
 import ResetPassword from '@/components/authentication/ResetPassword';
 import AccountService from '@/services/AccountService';
+import UpdatePostComponent from '@/components/body/UpdatePostComponent';
+import SinglePost from '@/components/body/SinglePost';
 
 const routes = [
 
@@ -59,6 +61,22 @@ const routes = [
     path: '/create',
     name: 'create',
     component: CreatePostComponent,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/update/:id',
+    name: 'update-post',
+    component: UpdatePostComponent,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/show/:id',
+    name: 'show',
+    component: SinglePost,
     meta: {
       requiresAuth: true
     }

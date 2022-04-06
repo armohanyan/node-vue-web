@@ -5,7 +5,7 @@ const url = 'http://localhost:3000/api/auth/';
 
 class AuthService {
 
-  static signUp(data) {
+  signUp(data) {
     return new Promise((resolve, reject) => {
       axios.post(`${url}sign-up`, data, {
         withCredentials: true
@@ -15,7 +15,7 @@ class AuthService {
     });
   }
 
-  static signIn(data) {
+  signIn(data) {
     return new Promise((resolve, reject) => {
       axios.post(`${url}sign-in`, data, {
         withCredentials: true
@@ -34,7 +34,7 @@ class AuthService {
         email,
         token
       })
-           .then(res => resolve(res))
+           .then(res   => resolve(res))
            .catch(err => reject(err));
     });
   }
@@ -45,6 +45,16 @@ class AuthService {
         email
       })
            .then(res => resolve(res))
+           .catch(err => reject(err));
+    });
+  }
+
+  requestVerifyEmail(data) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${url}request-verify-email`, data, {
+        withCredentials: true
+      })
+           .then(res =>  resolve(res))
            .catch(err => reject(err));
     });
   }
