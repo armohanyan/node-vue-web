@@ -96,10 +96,10 @@ export default {
       this.FILE = this.$refs.file.files[0];
     },
     onSubmit() {
-        // if(this.$v.$invalid) {
-        //   this.$v.$touch();
-        //   return false;
-        // }
+        if(this.$v.$invalid) {
+          this.$v.$touch();
+          return false;
+        }
 
       this.updatePost();
     },

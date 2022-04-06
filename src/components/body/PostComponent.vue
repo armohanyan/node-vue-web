@@ -106,7 +106,6 @@ export default {
                        });
     },
     onEditPassword(id) {
-      console.log(id);
       this.$router.push({ name: 'update-post', params: { id } });
     },
     viewPost(id) {
