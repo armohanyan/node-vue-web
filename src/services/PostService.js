@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:3000/api/posts';
+const url = process.env.VUE_APP_SERVER_URL + 'api/posts';
 
 class PostService {
 
