@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-const url = process.env.VUE_APP_SERVER_URL + 'api/auth/';
+const url = 'api/auth/';
 
 class AuthService {
 
@@ -16,7 +16,6 @@ class AuthService {
   }
 
   signIn(data) {
-    console.log(process.env);
     return new Promise((resolve, reject) => {
       axios.post(`${url}sign-in`, data, {
         withCredentials: true

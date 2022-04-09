@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-const url = process.env.VUE_APP_SERVER_URL + 'api/account/';
+const url = 'api/account/';
 
 class AccountService {
 
