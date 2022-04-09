@@ -42,20 +42,22 @@
                       >
                         View
                       </button>
-                      <button
-                          type="button"
-                          class="btn btn-sm btn-outline-secondary"
-                          @click="onEditPassword(post.id)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                          type="button"
-                          class="btn btn-sm btn-danger"
-                          @click="deletePost(post.id)"
-                      >
-                        delete
-                      </button>
+                      <div v-if="getCurrentUser.role === 'admin'">
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary"
+                            @click="onEditPassword(post.id)"
+                        >
+                          Edit
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-danger"
+                            @click="deletePost(post.id)"
+                        >
+                          delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -82,6 +84,11 @@ export default {
       title: ''
     };
   },
+  computed: {
+    getCurrentUser() {
+      return this.$store.getters.getCurrentUser;
+    }
+  },
   mounted() {
     this.getPosts();
   },
@@ -106,7 +113,6 @@ export default {
                        });
     },
     onEditPassword(id) {
-      console.log(id);
       this.$router.push({ name: 'update-post', params: { id } });
     },
     viewPost(id) {
@@ -114,7 +120,7 @@ export default {
     },
     imagePath(image) {
       if(image) {
-        return 'http://localhost:3000/images/' + image;
+        return process.env.VUE_APP_SERVER_URL + 'images/' + image;
       }
 
       return 'https://themesfinity.com/wp-content/uploads/2018/02/default-placeholder.png';

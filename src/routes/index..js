@@ -42,7 +42,7 @@ const routes = [
     }
   },
   {
-    path: '/reset-password', // query email and token
+    path: '/reset-password',
     name: 'reset-password',
     component: ResetPassword,
     meta: {
@@ -70,21 +70,13 @@ const routes = [
     name: 'update-post',
     component: UpdatePostComponent,
     meta: {
-      requiresAuth: true
+      requiresAdmin: true
     }
   },
   {
     path: '/show/:id',
     name: 'show',
     component: SinglePost,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: CreatePostComponent,
     meta: {
       requiresAuth: true
     }
@@ -98,7 +90,21 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
+
+  if(to.matched.some(record => record.meta.requiresAdmin)) {
+    new AccountService().getCurrent().then(({ data }) => {
+      if(data.data.currentAccount.role === "admin"){
+        next();
+      }
+      next({
+        path: '/',
+      });
+    }).catch(() => {
+      next({
+        path: '/sign-in',
+      });
+    });
+  } else if(to.matched.some(record => record.meta.requiresAuth)) {
     new AccountService().getCurrent().then(() => {
       next();
     }).catch(() => {

@@ -40,7 +40,7 @@ export default {
     },
     imagePath(image) {
       if(image) {
-        return 'http://localhost:3000/images/' + image;
+        return process.env.VUE_APP_SERVER_URL + 'images/' + image;
       }
 
       return 'https://themesfinity.com/wp-content/uploads/2018/02/default-placeholder.png';

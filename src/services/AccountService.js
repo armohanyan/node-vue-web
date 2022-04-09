@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-const url = 'http://localhost:3000/api/account/';
+const url = 'api/account/';
 
 class AccountService {
 
@@ -10,11 +10,11 @@ class AccountService {
       if(Cookie.get('accessToken')) {
         this.get()
             .then(account => {
-              resolve(account)
+              resolve(account);
             })
             .catch(err => {
               this.reset();
-              reject(err)
+              reject(err);
             });
       } else {
         this.reset();

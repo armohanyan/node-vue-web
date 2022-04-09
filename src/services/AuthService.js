@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 
-const url = 'http://localhost:3000/api/auth/';
+const url = 'api/auth/';
 
 class AuthService {
 
